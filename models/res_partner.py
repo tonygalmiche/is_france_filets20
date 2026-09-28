@@ -68,5 +68,13 @@ class ResPartner(models.Model):
     is_origine_id          = fields.Many2one('is.origine'         , u'Origine Client')
     is_groupe_client_id    = fields.Many2one('is.groupe.client'   , u'Groupe client')
 
+    # En v20, is_company est calculé (sans parent et avec un n° de TVA) : la plupart des sociétés
+    # de France Filets n'ont pas de TVA. Comme en v15, c'est une case à cocher, la valeur saisie est conservée
+    is_company = fields.Boolean(string='Société', readonly=False)
+
+    def _compute_is_company(self):
+        for partner in self:
+            partner.is_company = partner.is_company
+
 
 

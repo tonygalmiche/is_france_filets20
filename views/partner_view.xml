@@ -69,7 +69,10 @@
                 <field name="website" position="before">
                     <field name="is_groupe_client_id"/>
                 </field>
-                <xpath expr="//field[@name='vat']" position="after">
+                <xpath expr="//div[@name='identifiers']" position="before">
+                    <field name="is_company"/>
+                </xpath>
+                <xpath expr="//div[@name='identifiers']" position="after">
                     <field name="is_type_partenaire"     invisible="not is_company" />
                     <field name="is_date_commande"       invisible="not is_company or is_type_partenaire != 'Client'" />
                     <field name="is_region_id"           invisible="not is_company"/>
