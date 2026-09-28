@@ -87,13 +87,12 @@
             <field name="model">res.partner</field>
             <field name="priority">2</field>
             <field name="inherit_id" ref="account.view_partner_property_form"/>
-            <field name="group_ids" eval="[(4, ref('account.group_account_invoice'))]"/>
             <field name="arch" type="xml">
                 <field name="property_account_position_id" position="after">
-                    <field name="is_code_client_ebp"       invisible="not is_company"/>
-                    <field name="is_siren"                 invisible="not is_company"/>
-                    <field name="is_afacturage"            invisible="not is_company"/>
-                    <field name="is_validation_financiere" invisible="not is_company"/>
+                    <field name="is_code_client_ebp"       invisible="not is_company" groups="account.group_account_invoice"/>
+                    <field name="is_siren"                 invisible="not is_company" groups="account.group_account_invoice"/>
+                    <field name="is_afacturage"            invisible="not is_company" groups="account.group_account_invoice"/>
+                    <field name="is_validation_financiere" invisible="not is_company" groups="account.group_account_invoice"/>
                 </field>
             </field>
         </record>
