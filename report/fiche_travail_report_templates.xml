@@ -2,7 +2,6 @@
 <odoo>
 
     <template id="is_fiche_travail_external_layout_standard">
-        <t t-set="company" t-value="res_company"/>
         <div t-attf-class="header" t-att-style="report_header_style">
             <div class="row">
 

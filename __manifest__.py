@@ -51,8 +51,8 @@ Reprise d'is_france_filets15 (Odoo 15).
         'report/planning_report_templates.xml',
         'report/fiche_travail_report_templates.xml',
         'report/pv_reception_report_templates.xml',
-        # 'report/is_suivi_budget_report_templates.xml',
-        # 'report/is_suivi_budget_journal_vente_report_templates.xml',
+        'report/is_suivi_budget_report_templates.xml',
+        'report/is_suivi_budget_journal_vente_report_templates.xml',
         'report/report.xml',
     ],
 

@@ -2,34 +2,7 @@
 <odoo>
 
 
-    <template id="is_suivi_budget_journal_vente_report_layout" inherit_id="web.layout" primary="True">
-        <!-- Add report attributes -->
-        <xpath expr="//html" position="attributes">
-            <attribute name="t-att-data-report-margin-top">data_report_margin_top if data_report_margin_top else None</attribute>
-            <attribute name="t-att-data-report-header-spacing">data_report_header_spacing if data_report_header_spacing else None</attribute>
-            <attribute name="t-att-data-report-dpi">data_report_dpi if data_report_dpi else None</attribute>
-        </xpath>
-        <!-- Add report style -->
-        <xpath expr="//head" position="inside">
-            <link href="/web/static/lib/bootstrap/css/bootstrap.css" rel="stylesheet"/>
-            <link href="/website/static/src/css/website.css" rel="stylesheet"/>
-            <link href="/web/static/lib/fontawesome/css/font-awesome.css" rel="stylesheet"/>
-        </xpath>
-    </template>
-
-
-    <template id="is_suivi_budget_journal_vente_report_html_container">
-        <t t-set="body_classname" t-value="'container'"/>
-        <t t-call="is_france_filets20.is_suivi_budget_journal_vente_report_layout">
-            <t t-raw="0"/>
-        </t>
-    </template>
-
-
-
-
     <template id="is_suivi_budget_journal_vente_external_layout_standard">
-        <t t-set="company" t-value="res_company"/>
         <div t-attf-class="header" t-att-style="report_header_style">
         </div>
         <div t-attf-class="article o_report_layout_standard" t-att-data-oe-lang="o and o.env.context.get('lang')">
@@ -41,7 +14,7 @@
 
     <template id="is_suivi_budget_journal_vente_external_layout">
         <t t-if="not o" t-set="o" t-value="doc"/>
-        <t t-call="is_france_filets20.is_suivi_budget_external_layout_standard"><t t-out="0"/></t>
+        <t t-call="is_france_filets20.is_suivi_budget_journal_vente_external_layout_standard"><t t-out="0"/></t>
     </template>
 
 
@@ -84,7 +57,7 @@
                     }
                 </style>
                 <h1>Journal des ventes du <span t-field="o.date_debut"/> au <span t-field="o.date_fin"/></h1>
-                <div t-raw="o.get_journal_vente_html()"/>
+                <div t-out="o.get_journal_vente_html()"/>
             </div>
         </t>
     </template>

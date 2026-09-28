@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="is_suivi_budget_external_layout_standard">
-        <t t-set="company" t-value="res_company"/>
         <div t-attf-class="header" t-att-style="report_header_style">
         </div>
         <div t-attf-class="article o_report_layout_standard" t-att-data-oe-lang="o and o.env.context.get('lang')">
@@ -68,8 +67,8 @@
 
 
                 </style>
-                <h1><span t-field="o.name"/> imprimé le <t t-raw="o.get_now()"/></h1>
-                <div t-raw="o.get_html()"/>
+                <h1><span t-field="o.name"/> imprimé le <t t-out="o.get_now()"/></h1>
+                <div t-out="o.get_html()"/>
             </div>
         </t>
     </template>

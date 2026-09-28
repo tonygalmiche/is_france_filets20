@@ -2,6 +2,7 @@
 from odoo import models,fields,api
 from datetime import datetime,timedelta
 from dateutil.relativedelta import relativedelta
+from markupsafe import Markup, escape
 
 
 class IsSuiviBudget(models.Model):
@@ -81,9 +82,9 @@ class IsSuiviBudget(models.Model):
                 amount_untaxed = '{:,.0f}'.format(row[5]).replace(","," ").replace(".",",")
                 html+=u'<tr>'
                 html+=u'<td style="text-align:center">'+str(ct)+u'</td>'
-                html+=u'<td style="text-align:left;background-color:'+color_partner+u'">'+row[0]+u'</td>'
-                html+=u'<td style="text-align:center;background-color:'+color_region+u'">'+str(row[1] or '')+u'</td>'
-                html+=u'<td style="text-align:center">'+str(row[2] or '')+u'</td>'
+                html+=u'<td style="text-align:left;background-color:'+color_partner+u'">'+str(escape(row[0]))+u'</td>'
+                html+=u'<td style="text-align:center;background-color:'+color_region+u'">'+str(escape(row[1] or ''))+u'</td>'
+                html+=u'<td style="text-align:center">'+str(escape(row[2] or ''))+u'</td>'
                 html+=u'<td style="text-align:center">'+str(row[3])+u'</td>'
                 html+=u'<td style="text-align:center">'+str(row[4])+u'</td>'
                 html+=u'<td style="text-align:right">'+str(amount_untaxed)+u' €</td>'
@@ -91,7 +92,7 @@ class IsSuiviBudget(models.Model):
                 total+=row[5]
 
 
-            cde_moyenne = total / len(res)
+            cde_moyenne = total / len(res) if res else 0
             autre = total - nouveau - top
 
             total = '{:,.0f}'.format(total).replace(","," ").replace(".",",")
@@ -118,7 +119,7 @@ class IsSuiviBudget(models.Model):
 
             html+=u'</table>'
 
-            return html
+            return Markup(html)
 
 
     def get_now(self):
@@ -337,7 +338,7 @@ class IsSuiviBudget(models.Model):
             html+=u'<tr><td colspan="15" class="titre">Suivi Top Clients</td></tr>'
             total_objectif = 0
             for c in obj.get_clients():
-                html+=u'<tr><td>'+c.partner_id.name+u'</td>'
+                html+=u'<tr><td>'+str(escape(c.partner_id.name))+u'</td>'
                 total = 0
                 for m in obj.get_mois():
                     periode = self.get_periode(m)
@@ -355,7 +356,7 @@ class IsSuiviBudget(models.Model):
 
 
             for c in obj.get_groupe_clients():
-                html+=u'<tr><td>'+c.groupe_client_id.name+u'</td>'
+                html+=u'<tr><td>'+str(escape(c.groupe_client_id.name))+u'</td>'
                 total = 0
                 for m in obj.get_mois():
                     periode = self.get_periode(m)
@@ -408,7 +409,7 @@ class IsSuiviBudget(models.Model):
             html+=u'<tr><td colspan="15" class="titre">Suivi Secteurs d\'activités</td></tr>'
             total_objectif = 0
             for s in obj.get_secteurs():
-                html+=u'<tr><td>'+s.secteur_activite_id.name+u'</td>'
+                html+=u'<tr><td>'+str(escape(s.secteur_activite_id.name))+u'</td>'
                 total = 0
                 for m in obj.get_mois():
                     periode = self.get_periode(m)
@@ -506,7 +507,7 @@ class IsSuiviBudget(models.Model):
             html+=u'</tr>'
 
             html+=u'</table>'
-            return html
+            return Markup(html)
 
 
     def val2html(self,val,style='',unite=u'€'):
