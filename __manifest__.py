@@ -30,8 +30,6 @@ Reprise d'is_france_filets15 (Odoo 15).
 ],
     'data' : [
         'security/res.groups.xml',
-        'security/ir.model.access.csv',
-        'security/ir.model.access.xml',
 
         # Migration v20 : vues, menus et rapports désactivés pour installer d'abord les modèles
         # 'views/res_company_view.xml',
@@ -53,6 +51,7 @@ Reprise d'is_france_filets15 (Odoo 15).
         # 'report/is_suivi_budget_report_templates.xml',
         # 'report/is_suivi_budget_journal_vente_report_templates.xml',
         # 'report/report.xml',
+        'security/ir.access.csv',
     ],
 
     'assets': {
