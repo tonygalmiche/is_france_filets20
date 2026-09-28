@@ -39,7 +39,6 @@ class IsSaleOrderLine(models.Model):
         ('draft' , 'Devis'),
         ('sent'  , 'Devis envoyé'),
         ('sale'  , 'Bon de commande'),
-        ('done'  , 'Vérouillé'),
         ('cancel', 'Annulé'),
     ], u'État')
 

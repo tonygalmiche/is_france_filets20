@@ -3,7 +3,6 @@
 from odoo import api, fields, models, tools
 from datetime import datetime, timedelta
 from odoo.exceptions import AccessError, ValidationError, UserError  # type: ignore
-from odoo.http import request
 import os
 import base64
 from shutil import copy
@@ -253,9 +252,10 @@ class IsSaleOrderPlanning(models.Model):
     alerte       = fields.Text(u"Alerte", compute='_compute_alerte', readonly=True)
 
 
-    def onchange_dates(self,date_debut,date_fin):
-        if date_debut and date_fin:
-            if date_fin < date_debut:
+    @api.onchange('date_debut','date_fin')
+    def onchange_dates(self):
+        if self.date_debut and self.date_fin:
+            if self.date_fin < self.date_debut:
                 warning = {
                     'title': 'Attention !',
                     'message' : u'La date de fin est inférieure à la date de début'
@@ -612,11 +612,10 @@ class IsCreationPlanning(models.Model):
     planning_ids = fields.One2many('is.creation.planning.preparation', 'planning_id', u"Planning")
 
 
-    def name_get(self):
-        res=[]
+    @api.depends('date_debut')
+    def _compute_display_name(self):
         for obj in self:
-            res.append((obj.id, obj.date_debut))
-        return res
+            obj.display_name = str(obj.date_debut or '')
 
 
     def get_dates(self):
@@ -827,7 +826,7 @@ class IsCreationPlanning(models.Model):
 
     def sms_planning_action(self):
         """SMS du planning"""
-        cr,uid,context,su = self.env.args
+        uid = self.env.uid
         #Offset à prendre pour tenir compte des jours ouvrés
         offsets={
             0: 3, #Lundi
@@ -894,7 +893,6 @@ class IsCreationPlanning(models.Model):
             return {
                 'name': u'SMS',
                 'view_mode': 'list,form',
-                'view_type': 'form',
                 'res_model': 'is.sale.order.planning',
                 'domain': [
                     ('sms_mobile','!=', ''),
@@ -1055,7 +1053,7 @@ class IsCreationPlanning(models.Model):
 
 
 
-                pdf = request.env.ref('is_france_filets20.is_planning_reports').sudo()._render_qweb_pdf([obj.id])[0]
+                pdf = self.env['ir.actions.report'].sudo()._render_qweb_pdf('is_france_filets20.is_planning_reports', [obj.id])[0]
 
 
 
@@ -1081,7 +1079,6 @@ class IsCreationPlanning(models.Model):
             return {
                 'name': u'Préparation planning '+str(obj.date_debut),
                 'view_mode': 'list,form',
-                'view_type': 'form',
                 'res_model': 'is.creation.planning.preparation',
                 'domain': [
                     ('planning_id','=',obj.id),
@@ -1126,7 +1123,7 @@ class IsPlanning(models.Model):
 
 
     def generer_planning_pdf_action(self):
-        cr,uid,context,su = self.env.args
+        uid = self.env.uid
         db = self.env.cr.dbname
         path="/tmp/planning-"+str(uid)
         cde="rm -Rf " + path
@@ -1281,7 +1278,6 @@ class IsChantierPlanning(models.Model):
             return {
                 'name': "Saisie PV du chantier "+str(obj.chantier_id.name),
                 'view_mode': 'form,list',
-                'view_type': 'form',
                 'res_model': 'is.chantier.planning',
                 'type': 'ir.actions.act_window',
                 'res_id': obj.id,
@@ -1322,14 +1318,14 @@ class IsChantierDocument(models.Model):
 
 
     def write(self,vals):
-        if not self.env['res.users'].has_group('is_france_filets20.is_chef_secteur_group'):
+        if not self.env.user.has_group('is_france_filets20.is_chef_secteur_group'):
             raise AccessError("Il n'y a que le chef de secteur autorisé à modifier une ligne !")
         res = super(IsChantierDocument, self).write(vals)
         return res
 
 
     def unlink(self):
-        if not self.env['res.users'].has_group('is_france_filets20.is_chef_secteur_group'):
+        if not self.env.user.has_group('is_france_filets20.is_chef_secteur_group'):
             raise AccessError("Il n'y a que le chef de secteur autorisé à supprimer une ligne !")
         res = super(IsChantierDocument, self).unlink()
         return res
@@ -1358,7 +1354,7 @@ class IsChantier(models.Model):
     informations      = fields.Text(u'Informations diverses', readonly=True)
     piece_jointe_ids  = fields.Many2many('ir.attachment', 'is_chantier_piece_jointe_attachment_rel', 'is_chantier_id', 'attachment_id', u'Pièces jointes', readonly=True)
 
-    piece_jointe_commande_ids     = fields.Many2many('ir.attachment', u'Pièces jointes commande', compute="_compute_piece_jointe_commande_ids")
+    piece_jointe_commande_ids     = fields.Many2many('ir.attachment', string=u'Pièces jointes commande', compute="_compute_piece_jointe_commande_ids")
 
     piece_jointe_chantier_ids     = fields.Many2many('ir.attachment', 'is_chantier_piece_jointe_chantier_attachment_rel', 'is_chantier_id', 'attachment_id', u'Pièces jointes chantier')
     piece_jointe_chantier_ids_readonly = fields.Boolean('Pièces jointes commande vsb', compute="_compute_piece_jointe_chantier_ids_readonly")
@@ -1431,7 +1427,6 @@ class IsChantier(models.Model):
             return {
                 'name': "Equipiers du chantier " + str(obj.name),
                 'view_mode': 'list,form',
-                'view_type': 'form',
                 'res_model': 'hr.employee',
                 'type': 'ir.actions.act_window',
                 'domain': [('id', 'in', obj.equipier_ids.ids)],

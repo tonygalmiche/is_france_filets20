@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, tools
-from odoo.exceptions import Warning
 import datetime
 import codecs
 import unicodedata
@@ -31,10 +30,11 @@ class is_export_compta(models.Model):
     }
 
 
-    @api.model
-    def create(self, vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code('is.export.compta')
-        res = super(is_export_compta, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            vals['name'] = self.env['ir.sequence'].next_by_code('is.export.compta')
+        res = super(is_export_compta, self).create(vals_list)
         return res
 
 

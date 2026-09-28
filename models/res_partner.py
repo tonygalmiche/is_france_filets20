@@ -45,6 +45,7 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     fax                = fields.Char('Fax')
+    mobile             = fields.Char('Mobile')  # Supprimé d'Odoo en v20, remis pour les SMS du planning
     is_code_client_ebp = fields.Char('Code Client EBP')
     is_date_creation   = fields.Date('Date de création', default=lambda *a: _date_creation())
     is_siren           = fields.Char('SIREN')

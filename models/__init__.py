@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from . import ir_attachment
+# Anomalie 16 (faille de sécurité) : surcharge de ir.attachment.check() non reprise en v20 (méthode obsolète depuis la 19.0),
+# accès des chefs d'équipe aux pièces jointes des commandes à remplacer par une règle ciblée
+# from . import ir_attachment
 from . import res_users
 from . import res_company
 from . import res_partner

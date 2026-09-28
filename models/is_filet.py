@@ -48,10 +48,11 @@ class is_filet(models.Model):
         return res
 
 
-    @api.model
-    def create(self, vals):
-        vals['name'] = self.env['ir.sequence'].next_by_code('is.filet')
-        res = super(is_filet, self).create(vals)
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            vals['name'] = self.env['ir.sequence'].next_by_code('is.filet')
+        res = super(is_filet, self).create(vals_list)
         return res
 
 
@@ -95,7 +96,6 @@ class is_filet(models.Model):
             return {
                 'name': "Filet " + str(obj.name),
                 'view_mode': 'form',
-                'view_type': 'form',
                 'res_model': 'is.filet',
                 'type': 'ir.actions.act_window',
                 'res_id': obj.id,
