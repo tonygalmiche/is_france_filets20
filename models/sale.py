@@ -5,7 +5,6 @@ from markupsafe import Markup
 from datetime import datetime, timedelta
 from odoo.exceptions import AccessError, ValidationError, UserError  # type: ignore
 from odoo.tools.pdf import merge_pdf
-import base64
 import logging
 import requests
 _logger = logging.getLogger(__name__)
@@ -1071,7 +1070,7 @@ class IsCreationPlanning(models.Model):
                     'type':        'binary',
                     'res_model':   model,
                     'res_id':      planning.id,
-                    'datas':       base64.b64encode(pdf),
+                    'raw':         pdf,  # datas supprimé en v20 (ignoré à la création, erreur à la modification)
                 }
                 if attachments:
                     for attachment in attachments:
@@ -1143,7 +1142,7 @@ class IsPlanning(models.Model):
                     contenus.append(attachment.raw)
         if not contenus:
             raise UserError("Aucun planning PDF à fusionner : utilisez d'abord « Préparer le planning ».")
-        pdfs = base64.b64encode(merge_pdf(contenus))
+        pdfs = merge_pdf(contenus)
 
 
 
@@ -1181,7 +1180,7 @@ class IsPlanning(models.Model):
         vals = {
             'name'       : name,
             'type'       : 'binary',
-            'datas'      : pdfs,
+            'raw'        : pdfs,  # datas supprimé en v20
             'res_model'  : 'is.planning.pdf',
             'res_id'     : planning_pdf_id,
         }
