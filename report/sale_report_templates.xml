@@ -159,7 +159,7 @@
                             <p>Pour le choix de la nacelle, merci de cocher l'option retenue : </p>
                             <t t-foreach="doc.get_nacelles()" t-as="nacelle">
                                 <div>
-                                    <img t-att-src="'/is_france_filets/static/img/checkbox-unchecked.png'" style="max-height: 6mm;margin:1mm"/>
+                                    <img t-att-src="'/is_france_filets20/static/img/checkbox-unchecked.png'" style="max-height: 6mm;margin:1mm"/>
                                     <t t-esc="nacelle.name"/>
                                 </div>
                             </t>

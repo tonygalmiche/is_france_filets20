@@ -1055,7 +1055,7 @@ class IsCreationPlanning(models.Model):
 
 
 
-                pdf = request.env.ref('is_france_filets15.is_planning_reports').sudo()._render_qweb_pdf([obj.id])[0]
+                pdf = request.env.ref('is_france_filets20.is_planning_reports').sudo()._render_qweb_pdf([obj.id])[0]
 
 
 
@@ -1322,14 +1322,14 @@ class IsChantierDocument(models.Model):
 
 
     def write(self,vals):
-        if not self.env['res.users'].has_group('is_france_filets15.is_chef_secteur_group'):
+        if not self.env['res.users'].has_group('is_france_filets20.is_chef_secteur_group'):
             raise AccessError("Il n'y a que le chef de secteur autorisé à modifier une ligne !")
         res = super(IsChantierDocument, self).write(vals)
         return res
 
 
     def unlink(self):
-        if not self.env['res.users'].has_group('is_france_filets15.is_chef_secteur_group'):
+        if not self.env['res.users'].has_group('is_france_filets20.is_chef_secteur_group'):
             raise AccessError("Il n'y a que le chef de secteur autorisé à supprimer une ligne !")
         res = super(IsChantierDocument, self).unlink()
         return res
@@ -1436,7 +1436,7 @@ class IsChantier(models.Model):
                 'type': 'ir.actions.act_window',
                 'domain': [('id', 'in', obj.equipier_ids.ids)],
                 'views': [
-                    (self.env.ref('is_france_filets15.is_hr_employee_simple_tree_view').id, 'tree'),
-                    (self.env.ref('is_france_filets15.is_hr_employee_simple_form_view').id, 'form'),
+                    (self.env.ref('is_france_filets20.is_hr_employee_simple_tree_view').id, 'tree'),
+                    (self.env.ref('is_france_filets20.is_hr_employee_simple_form_view').id, 'form'),
                 ],
             }

@@ -20,7 +20,7 @@
 
     <template id="is_suivi_budget_journal_vente_report_html_container">
         <t t-set="body_classname" t-value="'container'"/>
-        <t t-call="is_france_filets15.is_suivi_budget_journal_vente_report_layout">
+        <t t-call="is_france_filets20.is_suivi_budget_journal_vente_report_layout">
             <t t-raw="0"/>
         </t>
     </template>
@@ -41,14 +41,14 @@
 
     <template id="is_suivi_budget_journal_vente_external_layout">
         <t t-if="not o" t-set="o" t-value="doc"/>
-        <t t-call="is_france_filets15.is_suivi_budget_external_layout_standard"><t t-out="0"/></t>
+        <t t-call="is_france_filets20.is_suivi_budget_external_layout_standard"><t t-out="0"/></t>
     </template>
 
 
 
 
     <template id="is_suivi_budget_journal_vente_report_document">
-        <t t-call="is_france_filets15.is_suivi_budget_journal_vente_external_layout">
+        <t t-call="is_france_filets20.is_suivi_budget_journal_vente_external_layout">
             <div class="page">
                 <style>
                     h1{
@@ -93,7 +93,7 @@
     <template id="is_suivi_budget_journal_vente_report">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-call="is_france_filets15.is_suivi_budget_journal_vente_report_document"/>
+                <t t-call="is_france_filets20.is_suivi_budget_journal_vente_report_document"/>
             </t>
         </t>
     </template>

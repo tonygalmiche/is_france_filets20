@@ -857,7 +857,7 @@
             <field name="state">code</field>
             <field name="code">action = records.generer_planning_pdf_action()</field>
             <field name="groups_id" eval="[(6,0,[
-                    ref('is_france_filets15.is_generer_planning_pdf_group'),
+                    ref('is_france_filets20.is_generer_planning_pdf_group'),
                 ])]"
             />
         </record>

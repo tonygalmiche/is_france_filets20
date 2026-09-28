@@ -54,10 +54,10 @@
     <record id="is_chantier_document_menu" model="ir.ui.menu" >
         <field name="name">Documents de suivi de chantier</field>
         <field name="sequence">20</field>
-        <field name="parent_id" eval="ref('is_france_filets15.is_chantier_main_menu')"/>
+        <field name="parent_id" eval="ref('is_france_filets20.is_chantier_main_menu')"/>
         <field name="action"    ref="is_chantier_document_action"/>
         <field name="groups_id" eval="[(6,0,[
-            ref('is_france_filets15.is_chef_secteur_group'),
+            ref('is_france_filets20.is_chef_secteur_group'),
         ])]"/>
     </record>
 

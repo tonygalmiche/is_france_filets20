@@ -53,7 +53,7 @@ InfoSaône - Module Odoo 15 pour France Filets
 
     'assets': {
         'web.assets_backend': [
-            'is_france_filets15/static/src/css/style.css',
+            'is_france_filets20/static/src/css/style.css',
         ]
     },
 
