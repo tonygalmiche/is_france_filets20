@@ -21,7 +21,6 @@
         <record model="ir.ui.view" id="is_groupe_client_tree_view">
             <field name="name">is_groupe_client_tree_view</field>
             <field name="model">is.groupe.client</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -71,15 +70,15 @@
                     <field name="is_groupe_client_id"/>
                 </field>
                 <xpath expr="//field[@name='vat']" position="after">
-                    <field name="is_type_partenaire"     attrs="{'invisible': [('is_company', '=', False)]}" />
-                    <field name="is_date_commande"       attrs="{'invisible': ['|',('is_company', '=', False),('is_type_partenaire', '!=', 'Client')]}" />
-                    <field name="is_region_id"           attrs="{'invisible': [('is_company', '=', False)]}"/>
-                    <field name="is_secteur_activite_id" attrs="{'invisible': [('is_company', '=', False)]}"/>
+                    <field name="is_type_partenaire"     invisible="not is_company" />
+                    <field name="is_date_commande"       invisible="not is_company or is_type_partenaire != 'Client'" />
+                    <field name="is_region_id"           invisible="not is_company"/>
+                    <field name="is_secteur_activite_id" invisible="not is_company"/>
                 </xpath>
 
-                <xpath expr="//field[@name='active_lang_count']" position="before">
-                    <field name="is_date_creation" attrs="{'invisible': [('is_company', '=', False)]}"/>
-                    <field name="is_origine_id" attrs="{'invisible': [('is_company', '=', False)]}"/>
+                <xpath expr="//field[@name='lang']" position="before">
+                    <field name="is_date_creation" invisible="not is_company"/>
+                    <field name="is_origine_id" invisible="not is_company"/>
                 </xpath>
             </field>
         </record>
@@ -88,13 +87,13 @@
             <field name="model">res.partner</field>
             <field name="priority">2</field>
             <field name="inherit_id" ref="account.view_partner_property_form"/>
-            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="group_ids" eval="[(4, ref('account.group_account_invoice'))]"/>
             <field name="arch" type="xml">
                 <field name="property_account_position_id" position="after">
-                    <field name="is_code_client_ebp"       attrs="{'invisible': [('is_company', '=', False)]}"/>
-                    <field name="is_siren"                 attrs="{'invisible': [('is_company', '=', False)]}"/>
-                    <field name="is_afacturage"            attrs="{'invisible': [('is_company', '=', False)]}"/>
-                    <field name="is_validation_financiere" attrs="{'invisible': [('is_company', '=', False)]}"/>
+                    <field name="is_code_client_ebp"       invisible="not is_company"/>
+                    <field name="is_siren"                 invisible="not is_company"/>
+                    <field name="is_afacturage"            invisible="not is_company"/>
+                    <field name="is_validation_financiere" invisible="not is_company"/>
                 </field>
             </field>
         </record>
@@ -119,7 +118,6 @@
         <record model="ir.ui.view" id="is_region_tree_view">
             <field name="name">is_region_tree_view</field>
             <field name="model">is.region</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -162,7 +160,6 @@
         <record model="ir.ui.view" id="is_secteur_activite_tree_view">
             <field name="name">is_secteur_activite_tree_view</field>
             <field name="model">is.secteur.activite</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -204,7 +201,6 @@
         <record model="ir.ui.view" id="is_origine_tree_view">
             <field name="name">is_origine_tree_view</field>
             <field name="model">is.origine</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
