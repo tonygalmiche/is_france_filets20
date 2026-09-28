@@ -300,7 +300,8 @@ class IsSaleOrderZone(models.Model):
 
 
 class SaleOrder(models.Model):
-    _inherit = "sale.order"
+    _inherit = ["sale.order", "is.piece.jointe.mixin"]
+    _is_piece_jointe_fields = ['is_piece_jointe_ids']
 
 
     @api.depends('is_planning_ids')
@@ -434,6 +435,7 @@ class SaleOrder(models.Model):
     is_etat_planning        = fields.Char(u"Etat planning", compute='_compute', readonly=True, store=True)
     is_info_fiche_travail   = fields.Text(u'Informations fiche de travail')
     is_piece_jointe_ids     = fields.Many2many('ir.attachment', 'sale_order_piece_jointe_attachment_rel', 'order_id', 'attachment_id', u'Pièces jointes')
+    is_chantier_ids         = fields.One2many('is.chantier', 'order_id', 'Chantiers')  # utilisé par la règle d'accès aux pièces jointes
     is_region_id            = fields.Many2one('is.region'          , u'Région'            , related='partner_id.is_region_id'          , readonly=True)
     is_secteur_activite_id  = fields.Many2one('is.secteur.activite', u"Secteur d'activité", related='partner_id.is_secteur_activite_id', readonly=True)
     is_controle_gestion_ids = fields.One2many('is.sale.order.controle.gestion', 'order_id', u"Contrôle de gestion")
@@ -1285,6 +1287,8 @@ class IsChantierPlanning(models.Model):
 
 class IsChantierDocument(models.Model):
     _name='is.chantier.document'
+    _inherit = ['is.piece.jointe.mixin']
+    _is_piece_jointe_fields = ['piece_jointe_ids']
     _description = "Documents de fin de chantier"
     _order='chantier_id,id'
 
@@ -1312,6 +1316,8 @@ class IsChantierDocument(models.Model):
 
 class IsChantier(models.Model):
     _name='is.chantier'
+    _inherit = ['is.piece.jointe.mixin']
+    _is_piece_jointe_fields = ['piece_jointe_chantier_ids', 'fin_chantier_ids']
     _description = "IsChantier"
     _order='name'
 
@@ -1390,13 +1396,9 @@ class IsChantier(models.Model):
     @api.depends('order_id')
     def _compute_piece_jointe_commande_ids(self):
         for obj in self:
-            ids=[]
-            for attachment in obj.sudo().order_id.is_piece_jointe_ids:
-                #TODO : Je dois changer le res_id et le res_model de la piece jointe pour que l'utilisateur puisse y accèder
-                attachment.sudo().res_id=obj.id
-                attachment.sudo().res_model=obj._name
-                ids.append(attachment.id)
-            obj.piece_jointe_commande_ids = [(6,0,ids)]
+            # Anomalie 4 : les pièces jointes ne sont plus déplacées sur le chantier ; les chefs d'équipe et de secteur
+            # les lisent grâce à la règle is_attachment_chantier_access (ir.access.csv)
+            obj.piece_jointe_commande_ids = [(6,0,obj.sudo().order_id.is_piece_jointe_ids.ids)]
 
 
 

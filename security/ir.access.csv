@@ -50,3 +50,4 @@ access_is_document_employe,access_is_document_employe,is.document.employe,is_fra
 access_hr_employee_chef_secteur,access_hr_employee_chef_secteur,hr.employee,is_france_filets20.is_chef_secteur_group,r,
 access_res_partner_title_user,access_res_partner_title_user,res.partner.title,base.group_user,r,
 access_res_partner_title_manager,access_res_partner_title_manager,res.partner.title,base.group_partner_manager,crud,
+is_attachment_chantier_access,Lecture des pièces jointes de la commande par les chefs d'équipe et de secteur de ses chantiers,ir.attachment,base.group_user,r,"['|','|','|',('is_order_ids.is_chantier_ids.user_ids','in',user.id),('is_order_ids.is_chantier_ids.chef_secteur_ids','in',user.id),('is_chantier_pj_ids.user_ids','in',user.id),('is_chantier_pj_ids.chef_secteur_ids','in',user.id)]"

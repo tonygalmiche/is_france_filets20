@@ -13,6 +13,8 @@ class is_type_document(models.Model):
 
 class is_document_employe(models.Model):
     _name='is.document.employe'
+    _inherit = ['is.piece.jointe.mixin']
+    _is_piece_jointe_fields = ['piece_jointe_ids']
     _description = "Documents du personnel"
     _order='employe_id'
 
