@@ -44,7 +44,7 @@ Reprise d'is_france_filets15 (Odoo 15).
         'views/is_filet_view.xml',
         'views/is_suivi_budget_view.xml',
         'views/is_document_employe_view.xml',
-        # 'views/report_templates.xml',
+        'views/report_templates.xml',
         'views/menu.xml',
         # 'report/sale_report_templates.xml',
         # 'report/report_invoice.xml',
