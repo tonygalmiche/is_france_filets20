@@ -31,7 +31,7 @@ class is_res_partner(models.Model):
     is_secteur_activite_id = fields.Many2one('is.secteur.activite', u"Secteur d'activité")
 
     def init(self):
-        cr = self._cr
+        cr = self.env.cr
         tools.drop_view_if_exists(cr, 'is_res_partner')
         cr.execute("""
             CREATE OR REPLACE view is_res_partner AS (

@@ -32,7 +32,7 @@ class IsAccountInvoiceLine(models.Model):
 
 
     def init(self):
-        cr=self._cr
+        cr=self.env.cr
         tools.drop_view_if_exists(cr, 'is_account_invoice_line')
         cr.execute("""
             CREATE OR REPLACE view is_account_invoice_line AS (

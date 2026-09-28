@@ -21,8 +21,8 @@ class IrAttachment(models.Model):
         if self:
             # DLE P173: `test_01_portal_attachment`
             self.env['ir.attachment'].flush(['res_model', 'res_id', 'create_uid', 'public', 'res_field'])
-            self._cr.execute('SELECT res_model, res_id, create_uid, public, res_field FROM ir_attachment WHERE id IN %s', [tuple(self.ids)])
-            for res_model, res_id, create_uid, public, res_field in self._cr.fetchall():
+            self.env.cr.execute('SELECT res_model, res_id, create_uid, public, res_field FROM ir_attachment WHERE id IN %s', [tuple(self.ids)])
+            for res_model, res_id, create_uid, public, res_field in self.env.cr.fetchall():
                 if public and mode == 'read':
                     continue
 

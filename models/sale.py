@@ -146,7 +146,7 @@ class IsEquipe(models.Model):
 
     def test_dispo_planning(self, date):
         """Retourne le nombre de fois ou l'équipe apparait sur le planning pour la date indiquée (si 0, alors l'équipe est dispo)"""
-        cr = self._cr
+        cr = self.env.cr
         SQL="""
             select p.id,p.date_debut,p.date_fin, p.commentaire
             from is_sale_order_planning p join is_sale_order_planning_equipe_rel rel  on p.id=rel.order_id
@@ -620,7 +620,7 @@ class IsCreationPlanning(models.Model):
 
 
     def get_dates(self):
-        cr = self._cr
+        cr = self.env.cr
         dates=[]
         for obj in self:
             d1=obj.date_debut
@@ -639,7 +639,7 @@ class IsCreationPlanning(models.Model):
 
     def get_absence(self,equipe,date):
         """Recherche des absences pour cette équipe et cette date"""
-        cr = self._cr
+        cr = self.env.cr
         d=datetime.strptime(date, '%d/%m/%Y')
         absence=False
         if isinstance(equipe.id, int):
@@ -663,7 +663,7 @@ class IsCreationPlanning(models.Model):
 
     def get_message(self,equipe,date):
         """Recherche des messages pour cette équipe et cette date"""
-        cr = self._cr
+        cr = self.env.cr
         d=datetime.strptime(date, '%d/%m/%Y')
         message=[]
         for obj in self:
@@ -685,7 +685,7 @@ class IsCreationPlanning(models.Model):
 
     def get_orders(self,date_debut,date_fin):
         """Retourne les commandes pour les fiches de travail"""
-        cr = self._cr
+        cr = self.env.cr
         SQL="""
             SELECT DISTINCT so.id, so.name
             FROM is_sale_order_planning isop inner join sale_order so on isop.order_id=so.id
@@ -707,7 +707,7 @@ class IsCreationPlanning(models.Model):
 
 
     def get_chantiers(self,equipe,date,retour='html'):
-        cr = self._cr
+        cr = self.env.cr
         d=datetime.strptime(date, '%d/%m/%Y')
         chantiers=[]
 
@@ -785,7 +785,7 @@ class IsCreationPlanning(models.Model):
                     mails.append(mail)
             email_to=','.join(mails)
             subject=u'Planning du '+str(obj.date_debut)+u' au '+str(obj.date_fin)
-            user  = self.env['res.users'].browse(self._uid)
+            user  = self.env['res.users'].browse(self.env.uid)
             email_from = user.email
             base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
             url=base_url+u'/web'
@@ -893,7 +893,7 @@ class IsCreationPlanning(models.Model):
                 })
             return {
                 'name': u'SMS',
-                'view_mode': 'tree,form',
+                'view_mode': 'list,form',
                 'view_type': 'form',
                 'res_model': 'is.sale.order.planning',
                 'domain': [
@@ -1080,7 +1080,7 @@ class IsCreationPlanning(models.Model):
 
             return {
                 'name': u'Préparation planning '+str(obj.date_debut),
-                'view_mode': 'tree,form',
+                'view_mode': 'list,form',
                 'view_type': 'form',
                 'res_model': 'is.creation.planning.preparation',
                 'domain': [
@@ -1127,7 +1127,7 @@ class IsPlanning(models.Model):
 
     def generer_planning_pdf_action(self):
         cr,uid,context,su = self.env.args
-        db = self._cr.dbname
+        db = self.env.cr.dbname
         path="/tmp/planning-"+str(uid)
         cde="rm -Rf " + path
         os.popen(cde).readlines()
@@ -1280,7 +1280,7 @@ class IsChantierPlanning(models.Model):
         for obj in self:
             return {
                 'name': "Saisie PV du chantier "+str(obj.chantier_id.name),
-                'view_mode': 'form,tree',
+                'view_mode': 'form,list',
                 'view_type': 'form',
                 'res_model': 'is.chantier.planning',
                 'type': 'ir.actions.act_window',
@@ -1289,7 +1289,7 @@ class IsChantierPlanning(models.Model):
 
 
     def actualiser_filets_action(self):
-        cr = self._cr
+        cr = self.env.cr
         for obj in self:
             if obj.chantier_id.id:
                 SQL="""
@@ -1430,13 +1430,13 @@ class IsChantier(models.Model):
         for obj in self:
             return {
                 'name': "Equipiers du chantier " + str(obj.name),
-                'view_mode': 'tree,form',
+                'view_mode': 'list,form',
                 'view_type': 'form',
                 'res_model': 'hr.employee',
                 'type': 'ir.actions.act_window',
                 'domain': [('id', 'in', obj.equipier_ids.ids)],
                 'views': [
-                    (self.env.ref('is_france_filets20.is_hr_employee_simple_tree_view').id, 'tree'),
+                    (self.env.ref('is_france_filets20.is_hr_employee_simple_tree_view').id, 'list'),
                     (self.env.ref('is_france_filets20.is_hr_employee_simple_form_view').id, 'form'),
                 ],
             }

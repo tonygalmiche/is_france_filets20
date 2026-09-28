@@ -39,7 +39,7 @@ class is_export_compta(models.Model):
 
 
     def generer_lignes_action(self):
-        cr=self._cr
+        cr=self.env.cr
         for obj in self:
             obj.ligne_ids.unlink()
             sql="""
@@ -97,7 +97,7 @@ class is_export_compta(models.Model):
 
 
     def generer_fichier_action(self):
-        cr=self._cr
+        cr=self.env.cr
         for obj in self:
             name='export-compta.txt'
             model='is.export.compta'

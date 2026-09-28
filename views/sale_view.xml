@@ -80,7 +80,7 @@
                     <page string="Planning">
                         <group string="Planning">
                             <field name="is_planning_ids" nolabel="1">
-                                 <tree editable="bottom">
+                                 <list editable="bottom">
                                     <field name="date_debut" on_change="onchange_dates(date_debut,date_fin)"/>
                                     <field name="date_fin"   on_change="onchange_dates(date_debut,date_fin)"/>
                                     <field name="commentaire"/>
@@ -93,12 +93,12 @@
                                     <field name="sms_heure"    readonly="1" string="SMS" optional="show"/>
                                     <field name="sms_resultat" readonly="1" string="Err" optional="show"/>
                                     <field name="alerte"                                 optional="show"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group string="Filets" attrs="{'invisible': [('is_filet_ids', '=', [])]}">
                             <field name="is_filet_ids" nolabel="1" readonly="1">
-                                 <tree>
+                                 <list>
                                     <button title="Voir la fiche du filet" name="voir_filet_action" type="object" icon="fa-search-plus"/>
                                     <field name="name"/>
                                     <field name="type_filet"/>
@@ -109,7 +109,7 @@
                                     <field name="chantier_id" widget="many2one_clickable"/>
                                     <field name="zone_id"/>
                                     <field name="depuis_le"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group attrs="{'invisible': [('is_filet_ids', '=', [])]}">
@@ -118,21 +118,21 @@
                     </page>
                     <page string="Zones">
                         <field name="is_zone_ids" nolabel="1">
-                            <tree editable="bottom">
+                            <list editable="bottom">
                                 <field name="name"/>
-                            </tree>
+                            </list>
                         </field>
                     </page>
                     <page string="Contrôle de gestion">
                         <field name="is_controle_gestion_ids">
-                             <tree editable="bottom">
+                             <list editable="bottom">
                                 <field name="ordre"/>
                                 <field name="controle_gestion_id"/>
                                 <field name="type_cout"/>
                                 <field name="montant_prevu"   sum="Total"/>
                                 <field name="montant_realise" sum="Total"/>
                                 <field name="ecart"           sum="Total"/>
-                            </tree>
+                            </list>
                         </field>
                         <group>
                             <group string="Prévu">
@@ -212,7 +212,7 @@
         <record id="is_sale_order_devis_action" model="ir.actions.act_window">
             <field name="name">Devis</field>
             <field name="res_model">sale.order</field>
-            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="view_mode">list,kanban,form,calendar,pivot,graph</field>
             <field name="domain">[('state','in', ['draft','sent']),'|',('is_motif_archivage','=',''),('is_motif_archivage','=',False)]</field>
         </record>
 
@@ -224,7 +224,7 @@
             <field name="model">sale.order</field>
             <field name="priority" eval="90" />
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name"/>
                     <field name="date_order"/>
                     <field name="partner_id"/>
@@ -237,13 +237,13 @@
                     <field name="is_motif_archivage_id"/>
                     <field name="is_motif_archivage"/>
                     <field name="state" invisible="1"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_sale_order_devis_archive_action" model="ir.actions.act_window">
             <field name="name">Devis archivés</field>
             <field name="res_model">sale.order</field>
-            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="view_mode">list,kanban,form,calendar,pivot,graph</field>
             <field name="view_id" ref="is_sale_order_archive_tree"/>
             <field name="domain">[('state','in', ['draft','sent']),('is_motif_archivage','!=','')]</field>
         </record>
@@ -260,7 +260,7 @@
             <field name="model">sale.order</field>
             <field name="priority" eval="90" />
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name"/>
                     <field name="date_order"/>
                     <field name="partner_id"/>
@@ -278,13 +278,13 @@
                     <field name="is_total_achats_realise" sum="Total"/>
                     <field name="is_ecart_achat" sum="Total"/>
                     <field name="state" invisible="1"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_sale_order_controle_gestion_action" model="ir.actions.act_window">
             <field name="name">Contrôle de gestion</field>
             <field name="res_model">sale.order</field>
-            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="view_mode">list,kanban,form,calendar,pivot,graph</field>
             <field name="view_id" ref="is_sale_order_controle_gestion_tree"/>
         </record>
 
@@ -294,7 +294,7 @@
             <field name="model">sale.order</field>
             <field name="priority" eval="90" />
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name"/>
                     <field name="date_order"/>
                     <field name="partner_id"/>
@@ -311,13 +311,13 @@
                     <field name="is_suivi_ht" sum="Total"/>
                     <field name="is_date_previsionnelle"/>
                     <field name="is_motif_archivage_id"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_gestion_offres_action" model="ir.actions.act_window">
             <field name="name">Gestion des offres</field>
             <field name="res_model">sale.order</field>
-            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field name="view_mode">list,kanban,form,calendar,pivot,graph</field>
             <field name="view_id" ref="is_gestion_offres_tree"/>
             <field name="domain">[('state','not in', ['cancel'])]</field>
         </record>
@@ -353,7 +353,7 @@
             <field name="name">is_sale_order_planning_sms_tree</field>
             <field name="model">is.sale.order.planning</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="date_debut"/>
                     <field name="date_fin"/>
                     <field name="pose_depose"/>
@@ -363,7 +363,7 @@
                     <field name="sms_resultat"/>
                     <field name="sms_quota"/>
                     <field name="order_id"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_sale_order_planning_search" model="ir.ui.view">
@@ -383,7 +383,7 @@
         <record id="is_sale_order_planning_action" model="ir.actions.act_window">
             <field name="name">SMS</field>
             <field name="res_model">is.sale.order.planning</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="domain">[('sms_mobile','!=', '')]</field>
         </record>
 
@@ -409,9 +409,9 @@
             <field name="model">is.type.prestation</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name" />
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_type_prestation_search_view" model="ir.ui.view">
@@ -426,7 +426,7 @@
         <record id="is_type_prestation_action" model="ir.actions.act_window">
             <field name="name">Types de prestations</field>
             <field name="res_model">is.type.prestation</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -452,9 +452,9 @@
             <field name="model">is.motif.archivage</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name" />
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_motif_archivage_search_view" model="ir.ui.view">
@@ -469,7 +469,7 @@
         <record id="is_motif_archivage_action" model="ir.actions.act_window">
             <field name="name">Motif d'archivage</field>
             <field name="res_model">is.motif.archivage</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -492,9 +492,9 @@
             <field name="model">is.nacelle</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name" />
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_nacelle_search_view" model="ir.ui.view">
@@ -509,7 +509,7 @@
         <record id="is_nacelle_action" model="ir.actions.act_window">
             <field name="name">Nacelles</field>
             <field name="res_model">is.nacelle</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -534,11 +534,11 @@
             <field name="model">is.controle.gestion</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="ordre"/>
                     <field name="name"/>
                     <field name="type_cout"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_controle_gestion_search_view" model="ir.ui.view">
@@ -555,7 +555,7 @@
         <record id="is_controle_gestion_action" model="ir.actions.act_window">
             <field name="name">Contrôle de gestion</field>
             <field name="res_model">is.controle.gestion</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -573,19 +573,19 @@
                         </group>
                         <group>
                             <field name="absence_ids">
-                                 <tree editable="bottom">
+                                 <list editable="bottom">
                                     <field name="date_debut"/>
                                     <field name="date_fin"/>
                                     <field name="motif"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group>
                             <field name="message_ids">
-                                 <tree editable="bottom">
+                                 <list editable="bottom">
                                     <field name="date"/>
                                     <field name="message"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                     </sheet>
@@ -597,11 +597,11 @@
             <field name="model">is.equipe</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name" />
                     <field name="user_id"/>
                     <field name="chef_secteur_id"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_equipe_search_view" model="ir.ui.view">
@@ -618,7 +618,7 @@
         <record id="is_equipe_action" model="ir.actions.act_window">
             <field name="name">Equipe</field>
             <field name="res_model">is.equipe</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -644,10 +644,10 @@
             <field name="model">is.departement</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name" />
                     <field name="equipe_ids" widget="many2many_tags"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_departement_search_view" model="ir.ui.view">
@@ -662,7 +662,7 @@
         <record id="is_departement_action" model="ir.actions.act_window">
             <field name="name">Départements</field>
             <field name="res_model">is.departement</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -710,11 +710,11 @@
             <field name="model">is.creation.planning</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="date_debut"/>
                     <field name="date_fin"/>
                     <field name="equipe_id"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_creation_planning_search_view" model="ir.ui.view">
@@ -730,7 +730,7 @@
         <record id="is_creation_planning_action" model="ir.actions.act_window">
             <field name="name">Préparation Planning</field>
             <field name="res_model">is.creation.planning</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -761,7 +761,7 @@
             <field name="model">is.creation.planning.preparation</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree create="0">
+                <list create="0">
                     <field name="date"/>
                     <field name="equipe_id"/>
                     <field name="order_id"/>
@@ -770,7 +770,7 @@
                     <field name="pose_depose"/>
                     <field name="etat"/>
                     <field name="message"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_creation_planning_preparation_search_view" model="ir.ui.view">
@@ -792,7 +792,7 @@
         <record id="is_creation_planning_preparation_action" model="ir.actions.act_window">
             <field name="name">Préparation planning</field>
             <field name="res_model">is.creation.planning.preparation</field>
-            <field name="view_mode">tree</field>
+            <field name="view_mode">list</field>
         </record>
 
 
@@ -825,10 +825,10 @@
             <field name="model">is.planning.pdf</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree create="0">
+                <list create="0">
                     <field name="name"/>
                     <field name="user_id"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_planning_pdf_search_view" model="ir.ui.view">
@@ -844,7 +844,7 @@
         <record id="is_planning_pdf_action" model="ir.actions.act_window">
             <field name="name">Planning PDF</field>
             <field name="res_model">is.planning.pdf</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -875,9 +875,9 @@
                         </group>
                         <group string="Chantiers">
                             <field name="chantier_ids" nolabel="1" readonly="1">
-                                 <tree editable="bottom">
+                                 <list editable="bottom">
                                     <field name="chantier_id"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                     </sheet>
@@ -894,11 +894,11 @@
             <field name="model">is.planning</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree create="0">
+                <list create="0">
                     <field name="name"/>
                     <field name="equipe_id"/>
                     <field name="chef_secteur_id"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_planning_search_view" model="ir.ui.view">
@@ -915,7 +915,7 @@
         <record id="is_planning_action" model="ir.actions.act_window">
             <field name="name">Planning</field>
             <field name="res_model">is.planning</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -966,7 +966,7 @@
                         </group>
                         <group string="Interventions">
                             <field name="planning_ids" nolabel="1">
-                                 <tree editable="bottom" create="0">
+                                 <list editable="bottom" create="0">
                                     <field name="date_debut"/>
                                     <field name="date_fin"/>
                                     <field name="commentaire"/>
@@ -977,12 +977,12 @@
                                     <button title="Actualiser la liste des filets pour ce chantier" name="actualiser_filets_action" type="object" icon="fa-refresh"/>
                                     <field name="realisation"/>
                                     <button title="Saisie du PV" name="saisie_pv_action" type="object" icon="fa-search-plus"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group string="Filets" attrs="{'invisible': [('filet_ids', '=', [])]}">
                             <field name="filet_ids" nolabel="1" readonly="1">
-                                 <tree>
+                                 <list>
                                     <button title="Voir la fiche du filet" name="voir_filet_action" type="object" icon="fa-search-plus"/>
                                     <field name="name"/>
                                     <field name="type_filet"/>
@@ -992,7 +992,7 @@
                                     <field name="position"/>
                                     <field name="zone_id"/>
                                     <field name="depuis_le"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group string="Pièces jointes commande" attrs="{'invisible': [('piece_jointe_commande_ids', '=', [])]}">
@@ -1009,14 +1009,14 @@
                         <group string="Documents de suivi de chantier">
 
                             <field name="fin_chantier_document" nolabel="1">
-                                <tree editable="bottom">
+                                <list editable="bottom">
                                     <field name="commentaire"/>
                                     <field name="piece_jointe_ids" nolabel="1" widget="many2many_binary"/>
                                     <field name="create_uid"  optional="show" string="Créé par"/>
                                     <field name="create_date" optional="show" string="Le"/>
                                     <field name="write_uid"   optional="show" string="Modifié par"/>
                                     <field name="write_date"  optional="show" string="Le"/>
-                                </tree>
+                                </list>
                             </field>
                         </group>
                         <group string="Autres documents de suivi de chantier" attrs="{'invisible': [('fin_chantier_ids', '=', [])]}">
@@ -1034,7 +1034,7 @@
             <field name="model">is.chantier</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree create="0">
+                <list create="0">
                     <field name="name"/>
                     <field name="user_ids"         widget="many2many_tags"/>
                     <field name="equipe_ids"       widget="many2many_tags" optional="hide"/>
@@ -1045,7 +1045,7 @@
                     <field name="nom_chantier"/>
                     <field name="type_chantier"/>
                     <field name="zone_ids" widget="many2many_tags" optional="hide"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_chantier_search_view" model="ir.ui.view">
@@ -1068,7 +1068,7 @@
         <record id="is_chantier_action" model="ir.actions.act_window">
             <field name="name">Chantiers</field>
             <field name="res_model">is.chantier</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -1104,7 +1104,7 @@
             <field name="model">is.chantier.document</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree delete="0" create="0">
+                <list delete="0" create="0">
                     <field name="chantier_id" widget="many2one_clickable"/>
                     <field name="user_ids"         optional="show"  widget="many2many_tags"/>
                     <field name="commentaire"      optional="show"/>
@@ -1113,7 +1113,7 @@
                     <field name="create_date"      optional="show" string="Le"/>
                     <field name="write_uid"        optional="show" string="Modifié par"/>
                     <field name="write_date"       optional="show" string="Le"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_chantier_document_search_view" model="ir.ui.view">
@@ -1130,7 +1130,7 @@
         <record id="is_chantier_document_action" model="ir.actions.act_window">
             <field name="name">Documents de suivi de chantier</field>
             <field name="res_model">is.chantier.document</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
         </record>
 
 
@@ -1221,14 +1221,14 @@
             <field name="model">hr.employee</field>
             <field name="priority" eval="100"/>
             <field name="arch" type="xml">
-                <tree string="Employés" create="0" edit="0" delete="0">
+                <list string="Employés" create="0" edit="0" delete="0">
                     <field name="name"/>
                     <field name="job_title"/>
                     <field name="work_phone"/>
                     <field name="mobile_phone"/>
                     <field name="work_email"/>
                     <field name="department_id"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_hr_employee_simple_form_view" model="ir.ui.view">

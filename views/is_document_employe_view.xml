@@ -6,9 +6,9 @@
             <field name="name">is.type.document.tree</field>
             <field name="model">is.type.document</field>
             <field name="arch" type="xml">
-                <tree >
+                <list >
                     <field name="name"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_type_document_form" model="ir.ui.view">
@@ -38,7 +38,7 @@
         <record id="is_type_document_action" model="ir.actions.act_window">
             <field name="name">Type de document</field>
             <field name="res_model">is.type.document</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="domain">[]</field>
             <field name="context">{}</field>
         </record>
@@ -50,12 +50,12 @@
             <field name="name">is.document.employe.tree</field>
             <field name="model">is.document.employe</field>
             <field name="arch" type="xml">
-                <tree >
+                <list >
                     <field name="employe_id" widget="many2one_clickable"/>
                     <field name="type_document_id"/>
                     <field name="date_fin"/>
                     <field name="piece_jointe_ids" widget="many2many_binary"/>
-                </tree>
+                </list>
             </field>
         </record>
         <record id="is_document_employe_form" model="ir.ui.view">
@@ -89,7 +89,7 @@
         <record id="is_document_employe_action" model="ir.actions.act_window">
             <field name="name">Documents du personnel</field>
             <field name="res_model">is.document.employe</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="domain">[]</field>
             <field name="context">{}</field>
         </record>

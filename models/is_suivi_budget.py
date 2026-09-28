@@ -24,7 +24,7 @@ class IsSuiviBudget(models.Model):
     date_fin                 = fields.Date(u"Date fin (Journal des ventes)")
 
     def get_journal_vente_html(self):
-        cr = self._cr
+        cr = self.env.cr
         for obj in self:
             new_partner_ids = obj.get_nouveaux_clients()
             top_partner_ids=[]
@@ -587,7 +587,7 @@ class IsSuiviBudget(models.Model):
 
 
     def get_nouveaux_clients(self):
-        cr = self._cr
+        cr = self.env.cr
         annee = self.get_annee()
         SQL="""
             SELECT id,name
@@ -622,7 +622,7 @@ class IsSuiviBudget(models.Model):
 
 
     def get_ca_realise_autre(self,m):
-        cr = self._cr
+        cr = self.env.cr
         ids1 = self.get_top()
         ids2 = self.get_nouveaux_clients()
         groupes = self.get_groupe_clients()
@@ -657,7 +657,7 @@ class IsSuiviBudget(models.Model):
 
 
     def get_ca_realise(self,m,partner_ids=False,not_in=False,secteur_activite_id=False,groupe_client_ids=False, sud=False):
-        cr = self._cr
+        cr = self.env.cr
         periode = self.get_periode(m)
         SQL="""
             SELECT
@@ -697,7 +697,7 @@ class IsSuiviBudget(models.Model):
 
 
     def get_ca_realise_sud(self,m):
-        cr = self._cr
+        cr = self.env.cr
         periode = self.get_periode(m)
         SQL="""
             SELECT
@@ -722,7 +722,7 @@ class IsSuiviBudget(models.Model):
 
     def get_commande_moyenne(self,debut,fin):
         """Ca facturé sur la période / Nombre de factures"""
-        cr = self._cr
+        cr = self.env.cr
         val = 0
         SQL="""
             SELECT
@@ -744,7 +744,7 @@ class IsSuiviBudget(models.Model):
 
     def get_nb_factures(self,m,mini,maxi,sud=False):
         """Nombre de factures entre mini et maxi"""
-        cr = self._cr
+        cr = self.env.cr
         for obj in self:
             periode = self.get_periode(m)
             SQL="""
@@ -786,7 +786,7 @@ class IsSuiviBudget(models.Model):
 
 
     def get_ca_commande_ferme(self,m,partner_ids=False,not_in=False,secteur_activite_id=False,groupe_client_ids=False,sud=False):
-        cr = self._cr
+        cr = self.env.cr
         periode = self.get_periode(m)
         #Prise en compte du retard de 90 jours
         debut = periode['debut']
@@ -827,7 +827,7 @@ class IsSuiviBudget(models.Model):
 
 
     def get_ca_commande_prev(self,m, sud=False):
-        cr = self._cr
+        cr = self.env.cr
         for obj in self:
             periode = self.get_periode(m)
             now = datetime.now().date()

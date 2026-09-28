@@ -8,7 +8,7 @@ class ResUsers(models.Model):
 
     def get_chantiers(self):
         """Retourne pour l'application mobile, la liste des chantiers pour le chef de chantier et les 28 prochains jours"""
-        equipes = self.env['is.equipe'].search([('user_id','=',self._uid)])
+        equipes = self.env['is.equipe'].search([('user_id','=',self.env.uid)])
         equipe= False
         if len(equipes)>0:
             equipe = equipes[0]
