@@ -9,6 +9,7 @@ import base64
 from shutil import copy
 import subprocess
 import logging
+import requests
 _logger = logging.getLogger(__name__)
 
 
@@ -866,24 +867,29 @@ class IsCreationPlanning(models.Model):
                         to,err2 = self._format_mobile(company.is_sms_mobile)
                     else:
                         to = mobile
-                    param = \
-                        'account='+(company.is_sms_account or '')+\
-                        '&login='+(company.is_sms_login or '')+\
-                        '&password='+(company.is_sms_password or '')+\
-                        '&from='+(company.is_sms_from or '')+\
-                        '&to='+to+\
-                        '&message='+message
-                    cde = 'curl --data "'+param+'" https://www.ovh.com/cgi-bin/sms/http2sms.cgi'
-                    res=os.popen(cde).readlines()
-                    if len(res)>=2:
-                        if res[0].strip()=='OK':
+                    # Migration v20 : requests au lieu de curl (mot de passe visible dans les processus,
+                    # message non encodé : anomalie 10). contentType=text/plain pour avoir la réponse
+                    # « OK / crédits restants / id du SMS » (en HTML par défaut, elle n'était jamais lue)
+                    params = {
+                        'account'    : company.is_sms_account or '',
+                        'login'      : company.is_sms_login or '',
+                        'password'   : company.is_sms_password or '',
+                        'from'       : company.is_sms_from or '',
+                        'to'         : to,
+                        'message'    : message,
+                        'contentType': 'text/plain',
+                    }
+                    try:
+                        response = requests.post('https://www.ovh.com/cgi-bin/sms/http2sms.cgi', data=params, timeout=30)
+                        res = response.text.strip().splitlines()
+                        if res and res[0].strip()=='OK':
                             err='OK'
-                            quota = int(float(res[1].strip()))
-                    else:
-                        err='\n'.join(res)
-                    ct=0
-                    for l in res:
-                        ct+=1
+                            if len(res)>=2:
+                                quota = int(float(res[1].strip()))
+                        else:
+                            err = response.text.strip()[:500] or 'Réponse vide du serveur SMS'
+                    except requests.RequestException as e:
+                        err = 'Erreur de connexion au serveur SMS : %s' % e
                 line.write({
                     'sms_heure' : date_debut,
                     'sms_message': message,
