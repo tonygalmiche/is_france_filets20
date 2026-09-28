@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models,fields,api
+from odoo.exceptions import UserError
 from datetime import datetime,timedelta
 from dateutil.relativedelta import relativedelta
 from markupsafe import Markup, escape
@@ -27,6 +28,10 @@ class IsSuiviBudget(models.Model):
     def get_journal_vente_html(self):
         cr = self.env.cr
         for obj in self:
+            if not obj.date_debut or not obj.date_fin:
+                raise UserError("Renseignez la date de début et la date de fin du journal des ventes.")
+            if not obj.mois_ids:
+                raise UserError("Ajoutez au moins une ligne dans « Mois » : la première ligne sert à déterminer l'année des nouveaux clients.")
             new_partner_ids = obj.get_nouveaux_clients()
             top_partner_ids=[]
             for line in obj.top_client_ids:
