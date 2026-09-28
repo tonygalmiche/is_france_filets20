@@ -32,6 +32,7 @@ Reprise d'is_france_filets15 (Odoo 15).
     'data' : [
         'security/res.groups.xml',
         'security/ir.access.csv',
+        'data/ir_config_parameter.xml',
 
         # Migration v20 : vues, menus et rapports désactivés pour installer d'abord les modèles
         'views/res_company_view.xml',

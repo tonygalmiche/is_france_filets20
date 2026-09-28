@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- URL utilisée par wkhtmltopdf pour charger les CSS et images des rapports.
+             Sans elle, web.base.url (ex : https://france-filets20) peut ne pas être joignable
+             depuis le serveur et les PDF sont générés vides ou sans mise en page -->
+        <record id="report_url" model="ir.config_parameter">
+            <field name="key">report.url</field>
+            <field name="value">http://localhost:8069</field>
+        </record>
+    </data>
+</odoo>
