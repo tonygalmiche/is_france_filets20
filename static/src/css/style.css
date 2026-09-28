@@ -1,0 +1,14 @@
+
+
+.oe_form_sheet_width_wider {
+    width: 98% !important;
+    max-width: 98% !important;
+}
+
+
+
+/* Pour corriger bug avec sticky_header_tree_and_form_view */
+.o_list_view .o_optional_columns_dropdown_toggle {
+    z-index: 999 !important;
+    padding-right: 10px;
+}
