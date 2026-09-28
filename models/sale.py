@@ -1096,7 +1096,7 @@ class IsCreationPlanning(models.Model):
 
 class IsPlanningPDF(models.Model):
     _name='is.planning.pdf'
-    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['portal.mixin', 'mail.thread.main.attachment', 'mail.activity.mixin']  # aperçu du PDF à côté du chatter
     _description = "IsPlanningPDF"
     _order='name desc'
 
@@ -1115,7 +1115,7 @@ class IsPlanningLine(models.Model):
 
 class IsPlanning(models.Model):
     _name='is.planning'
-    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
+    _inherit = ['portal.mixin', 'mail.thread.main.attachment', 'mail.activity.mixin']  # aperçu du PDF à côté du chatter
     _description = "IsPlanning"
     _order='name desc'
 
