@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <record id="is_filet_seq" model="ir.sequence">
             <field name="name">N°Filet</field>
@@ -54,7 +54,7 @@
                                 <field name="longitude"/>
                                 <field name="etat_filet"/>
                                 <field name="chantier_id"/>
-                                <field name="zone_id" attrs="{'invisible': [('position','!=','chantier')]}"/>
+                                <field name="zone_id" invisible="position != 'chantier'"/>
                             </group>
                         </group>
                         <field name="mouvement_ids">
@@ -66,7 +66,7 @@
                                 <field name="etat_filet"/>
                                 <field name="chantier_id"/>
                                 <field name="zone_ids" invisible="1"/>
-                                <field name="zone_id" domain="[('id','in',zone_ids)]" attrs="{'readonly': [('zone_ids','=',[])], 'required': [('zone_ids','!=',[])]}"/>
+                                <field name="zone_id" domain="[('id','in',zone_ids)]" readonly="not zone_ids" required="zone_ids"/>
                                 <field name="create_uid" string="Effectué par"/>
                             </list>
                         </field>
@@ -116,7 +116,7 @@
                     <field name="etat_filet"       optional="show"/>
                     <field name="chantier_id"      optional="show"/>
                     <field name="zone_ids" invisible="1"/>
-                    <field name="zone_id" optional="show" domain="[('id','in',zone_ids)]" attrs="{'readonly': [('zone_ids','=',[])], 'required': [('zone_ids','!=',[])]}"/>
+                    <field name="zone_id" optional="show" domain="[('id','in',zone_ids)]" readonly="not zone_ids" required="zone_ids"/>
                     <field name="create_uid"       optional="show" string="Effectué par"/>
                     <field name="type_filet"       optional="show"/>
                     <field name="dimensions"       optional="show"/>
@@ -141,7 +141,7 @@
                             <field name="etat_filet"/>
                             <field name="chantier_id"/>
                             <field name="zone_ids" invisible="1"/>
-                            <field name="zone_id" domain="[('id','in',zone_ids)]" attrs="{'readonly': [('zone_ids','=',[])], 'required': [('zone_ids','!=',[])]}"/>
+                            <field name="zone_id" domain="[('id','in',zone_ids)]" readonly="not zone_ids" required="zone_ids"/>
                             <field name="create_uid" string="Effectué par"/>
                         </group>
                     </sheet>
@@ -173,4 +173,4 @@
             <field name="context">{}</field>
         </record>
     </data>
-</openerp>
+</odoo>

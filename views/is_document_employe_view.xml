@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
         <!-- is.type.document -->
         <record id="is_type_document_tree" model="ir.ui.view">
@@ -51,7 +51,7 @@
             <field name="model">is.document.employe</field>
             <field name="arch" type="xml">
                 <list >
-                    <field name="employe_id" widget="many2one_clickable"/>
+                    <field name="employe_id" widget="many2one"/>
                     <field name="type_document_id"/>
                     <field name="date_fin"/>
                     <field name="piece_jointe_ids" widget="many2many_binary"/>
@@ -66,7 +66,7 @@
                     <sheet class="oe_form_sheet_width_wider">
                         <group>
                             <group>
-                                <field name="employe_id" widget="many2one_clickable"/>
+                                <field name="employe_id" widget="many2one"/>
                                 <field name="type_document_id"/>
                                 <field name="date_fin"/>
                                 <field name="piece_jointe_ids" widget="many2many_binary"/>
@@ -96,4 +96,4 @@
 
 
     </data>
-</openerp>
+</odoo>
