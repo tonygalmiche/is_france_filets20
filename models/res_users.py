@@ -20,7 +20,6 @@ class ResUsers(models.Model):
                 date_fin   = planning.creation_planning_id.date_fin
                 debut = datetime.today()
                 fin   = debut + timedelta(days=28)
-                #if date_fin >= str(debut) and date_fin<=str(fin):
                 if str(date_fin) >= str(debut) and str(date_fin)<=str(fin):
                     for chantier in planning.chantier_ids:
                         ids.append(chantier.chantier_id.id)

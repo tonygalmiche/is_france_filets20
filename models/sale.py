@@ -370,7 +370,6 @@ class SaleOrder(models.Model):
             obj.is_classification = ','.join(ids)
 
 
-    #@api.depends('partner_id','partner_id.is_type_partenaire')
     def _compute_type_partenaire(self):
         for obj in self:
             obj.is_type_partenaire = obj.partner_id.is_type_partenaire
@@ -624,8 +623,6 @@ class IsCreationPlanning(models.Model):
         cr = self._cr
         dates=[]
         for obj in self:
-            #d1=datetime.strptime(obj.date_debut, '%Y-%m-%d')
-            #d2=datetime.strptime(obj.date_fin, '%Y-%m-%d')
             d1=obj.date_debut
             d2=obj.date_fin
             jours=(d2-d1).days+1
@@ -865,8 +862,6 @@ class IsCreationPlanning(models.Model):
                     message = company.is_sms_message or ''
                     message = message.replace('[date_debut]',date_fin.strftime('%d/%m/%Y'))
                     message = message.replace('\n',' ')
-                    #message = unicode(message,'utf-8')
-                    #message = unicodedata.normalize('NFD', message).encode('ascii', 'ignore')
                     if company.is_sms_mobile:
                         to,err2 = self._format_mobile(company.is_sms_mobile)
                     else:
@@ -982,9 +977,6 @@ class IsCreationPlanning(models.Model):
                     chantier=self.env['is.chantier'].create(vals)
                 else:
                     chantier=chantiers[0]
-                # piece_jointe_ids=[]
-                # for attachment in order.is_piece_jointe_ids:
-                #     piece_jointe_ids.append(attachment.id)
                 vals={
                     'name'               : order.name,
                     'client'             : order.partner_id.name,
@@ -994,10 +986,8 @@ class IsCreationPlanning(models.Model):
                     'hauteur'            : order.is_hauteur,
                     'type_chantier'      : order.is_type_chantier,
                     'informations'       : order.is_info_fiche_travail,
-                    #'piece_jointe_ids'   : [(6,0,piece_jointe_ids)],
                 }
                 chantier.write(vals)
-                #user_ids=[]
                 for line in order.is_planning_ids:
                     plannings = self.env['is.chantier.planning'].search([('sale_order_planning_id','=',line.id)])
                     if not plannings:
@@ -1009,8 +999,6 @@ class IsCreationPlanning(models.Model):
                     else:
                         planning=plannings[0]
 
-                    #for l in line.equipe_ids:
-                    #    user_ids.append(l.user_id.id)
                     vals={
                         'date_debut'            : line.date_debut,
                         'date_fin'              : line.date_fin,
@@ -1021,10 +1009,6 @@ class IsCreationPlanning(models.Model):
                         'equipier_ids'          : [(6,0,line.equipier_ids.ids)],
                     }
                     planning.write(vals)
-                # vals={
-                #     'user_ids': [(6,0,user_ids)],
-                # }
-                # chantier.write(vals)
             #*******************************************************************
 
             #** Ajout des chantiers sur le planning ****************************
@@ -1068,13 +1052,11 @@ class IsCreationPlanning(models.Model):
             equipe_id=obj.equipe_id.id
             for planning in plannings:
                 obj.equipe_id=planning.equipe_id.id
-                #pdf = self.env['report'].get_pdf([obj.id], 'is_france_filets15.is_planning_report')
 
 
 
                 pdf = request.env.ref('is_france_filets15.is_planning_reports').sudo()._render_qweb_pdf([obj.id])[0]
 
-                #pdf, _ = request.env.ref('sale.action_report_saleorder').sudo()._render_qweb_pdf([sale_order_id])
 
 
                 model=planning._name
@@ -1083,12 +1065,9 @@ class IsCreationPlanning(models.Model):
                 attachments = attachment_obj.search([('res_model','=',model),('res_id','=',planning.id),('name','=',name)])
                 vals = {
                     'name':        name,
-                    #'datas_fname': name,
                     'type':        'binary',
                     'res_model':   model,
                     'res_id':      planning.id,
-                    #'datas':       pdf.encode('base64'),
-                    #'datas':       pdf,
                     'datas':       base64.b64encode(pdf),
                 }
                 if attachments:
@@ -1224,7 +1203,6 @@ class IsPlanning(models.Model):
         # ** Creation ou modification de la pièce jointe *******************
         vals = {
             'name'       : name,
-            #'datas_fname': name,
             'type'       : 'binary',
             'datas'      : pdfs,
             'res_model'  : 'is.planning.pdf',
@@ -1431,8 +1409,6 @@ class IsChantier(models.Model):
                 chef_secteur_ids.append(user._origin.id)
             if self.env.user.id in chef_secteur_ids:
                 readonly=False
-            #if self.env.user.has_group('is_france_filets15.is_chef_chantier_group') or self.env.user.has_group('sales_team.group_sale_manager'):
-            #    readonly=False
             obj.piece_jointe_chantier_ids_readonly = readonly
 
 
@@ -1447,8 +1423,6 @@ class IsChantier(models.Model):
                 ids.append(attachment.id)
             obj.piece_jointe_commande_ids = [(6,0,ids)]
 
-            # for attachment in obj.sudo().piece_jointe_chantier_ids:
-            #     attachment.sudo().res_id=obj.id
 
 
     def voir_equipiers_action(self):

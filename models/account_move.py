@@ -3,10 +3,7 @@
 from odoo import api, fields, models, _
 
 
-# class AccountMove(models.Model):
-#     _inherit = "account.move"
 
-#     date_due = fields.Date(string=u"Date d'échéance", readonly=False, states={}, index=True, copy=False)
 
 
 class AccountMoveLine(models.Model):

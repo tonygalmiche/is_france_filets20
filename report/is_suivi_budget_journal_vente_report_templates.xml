@@ -25,31 +25,6 @@
         </t>
     </template>
 
-<!-- 
-    <template id="is_suivi_budget_journal_vente_report_external_layout_header">
-        <div class="header">
-        </div>
-    </template>
-
-
-
-    <template id="is_suivi_budget_journal_vente_report_external_layout_footer">
-        <div class="footer">
-        </div>
-    </template>
-
-
-    <template id="is_suivi_budget_journal_vente_report_external_layout">
-        <t t-if="o and 'company_id' in o">
-            <t t-set="company" t-value="o.company_id"/>
-        </t>
-        <t t-if="not o or not 'company_id' in o">
-            <t t-set="company" t-value="res_company"/>
-        </t>
-        <t t-call="is_france_filets15.is_suivi_budget_journal_vente_report_external_layout_header"/>
-        <t t-raw="0"/>
-        <t t-call="is_france_filets15.is_suivi_budget_journal_vente_report_external_layout_footer"/>
-    </template> -->
 
 
 

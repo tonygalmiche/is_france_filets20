@@ -58,7 +58,6 @@ class IsSuiviBudget(models.Model):
             total=0
             cde_moyenne = 0
             top = 0
-            #clair_top = 0
             nouveau = 0
             so = 0
             autre = 0
@@ -355,7 +354,6 @@ class IsSuiviBudget(models.Model):
                 total_objectif+=c.objectif
 
 
-            #total_objectif = 0
             for c in obj.get_groupe_clients():
                 html+=u'<tr><td>'+c.groupe_client_id.name+u'</td>'
                 total = 0
@@ -471,7 +469,6 @@ class IsSuiviBudget(models.Model):
             total = 0
             for m in obj.get_mois():
                 val = obj.get_ca_commande_prev(m, sud=True)
-                #tab['ca_carnet_commande_prev'][m.mois] = val
                 html+=u'<td class="style1">'+obj.val2html(val)+u'</td>'
                 total+=val
             html+=u'<td class="style1">'+obj.val2html(total)+u'</td>'
@@ -562,7 +559,6 @@ class IsSuiviBudget(models.Model):
 
 
     def get_periode(self,m):
-        #d = datetime.strptime(m.mois, '%Y-%m-%d')
         d = m.mois
         r={}
         r['mois']  = d.strftime('%m/%Y')
@@ -575,7 +571,6 @@ class IsSuiviBudget(models.Model):
         r={}
         for obj in self:
             for m in obj.mois_ids:
-                #d = datetime.strptime(m.mois, '%Y-%m-%d')
                 d = m.mois
                 r['debut'] = d - timedelta(days=d.day-1)
                 r['fin']   = r['debut'] + relativedelta(years=1)
@@ -908,11 +903,6 @@ class IsSuiviBudgetMois(models.Model):
     objectif_ca_sud_html = fields.Char("Objectif CA Sud Ouest et Sud Est HTML", compute='_compute_objectif_ca_sud_html')
 
 
-                # m.ca_budget_html       = self.val2html(m.ca_budget)
-                # m.re_previsionnel_html = self.val2htmlcolor(m.re_previsionnel)
-                # m.re_realise_html      = self.val2htmlcolor(m.re_realise)
-                # m.part_achat_html      = self.val2htmlcolor(m.part_achat)
-                # m.objectif_ca_sud_html = self.val2html(m.objectif_ca_sud)
 
 
 

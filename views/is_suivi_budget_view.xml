@@ -26,7 +26,6 @@
                             <group>
                                 <field name="name"/>
                                 <field name="taux_transformation"/>
-                                <!-- <field name="montant_facture"/> -->
 
                             </group>
                             <group>

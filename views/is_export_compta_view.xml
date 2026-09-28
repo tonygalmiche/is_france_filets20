@@ -57,10 +57,6 @@
                     <field name="libelle"/>
                     <field name="piece"/>
                     <field name="commentaire" />
-                    <!-- <group expand="0" string="Regrouper par...">
-                        <filter string="Compte"        context="{'group_by':'account_id'}"/>
-                        <filter string="Pièce"         context="{'group_by':'piece'}"/>
-                    </group> -->
                </search>
             </field>
         </record>

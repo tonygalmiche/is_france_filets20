@@ -5,7 +5,6 @@ import datetime
 import codecs
 import unicodedata
 import base64
-#import csv, cStringIO
 
 
 def s(txt):

@@ -57,18 +57,5 @@
         />
 
 
-        <!-- 
-        <record id="is_invoice_tree" model="ir.ui.view">
-            <field name="name">is_invoice_tree</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account.invoice_tree"/>
-            <field name="arch" type="xml">
-                <field name="amount_total_signed" position="replace">
-                    <field name="amount_untaxed"       string="Total HT"  sum="Total"/>
-                    <field name="amount_tax"           string="TVA"       sum="Total"/>
-                    <field name="amount_total_signed"  string="Total TTC" sum="Total"/>
-                </field>
-            </field>
-        </record> -->
     </data>
 </odoo>
