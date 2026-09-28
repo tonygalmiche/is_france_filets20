@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models, tools
+from odoo import api, fields, models
 from markupsafe import Markup
 from datetime import datetime, timedelta
 from odoo.exceptions import AccessError, ValidationError, UserError  # type: ignore
-import os
+from odoo.tools.pdf import merge_pdf
 import base64
-from shutil import copy
-import subprocess
 import logging
 import requests
 _logger = logging.getLogger(__name__)
@@ -1131,46 +1129,21 @@ class IsPlanning(models.Model):
 
     def generer_planning_pdf_action(self):
         uid = self.env.uid
-        db = self.env.cr.dbname
-        path="/tmp/planning-"+str(uid)
-        cde="rm -Rf " + path
-        os.popen(cde).readlines()
-        if not os.path.exists(path):
-            os.makedirs(path)
-        paths=[]
+        # Migration v20 : fusion par Odoo (merge_pdf) au lieu de pdftk, sans copie des fichiers du filestore dans /tmp
+        contenus=[]
         for obj in self:
-            # ** Ajout des plannings ******************************************
-            filestore = os.environ.get('HOME')+"/.local/share/Odoo/filestore/"+db+"/"
-            data_dir = tools.config['data_dir']
-            if data_dir:
-                filestore=data_dir+"/filestore/"+db+"/"
             filtre=[
                 ('name','=','planning.pdf'),
                 ('res_model','=','is.planning'),
                 ('res_id','=',obj.id),
-            
             ]
             attachments = self.env['ir.attachment'].search(filtre,limit=1)
             for attachment in attachments:
-                src = filestore+attachment.store_fname
-                dst = path+"/"+str(attachment.id)+".pdf"
-                if os.path.exists(src):
-                    copy(src, dst)
-                    paths.append(dst)
-            # *****************************************************************
-
-        # ** Merge des PDF *************************************************
-        path_merged = path+"/pdf_merged.pdf"
-        cmd="export _JAVA_OPTIONS='-Xms16m -Xmx64m' && pdftk "+" ".join(paths)+" cat output "+path_merged+" 2>&1"
-        _logger.info(cmd)
-        stream = os.popen(cmd)
-        res = stream.read()
-        _logger.info("res pdftk = %s",res)
-        if not os.path.exists(path_merged):
-            raise UserError("PDF non généré\ncmd=%s"%(cmd))
-        pdfs = open(path_merged,'rb').read()
-        pdfs = base64.b64encode(pdfs)
-        # ******************************************************************
+                if attachment.raw:
+                    contenus.append(attachment.raw)
+        if not contenus:
+            raise UserError("Aucun planning PDF à fusionner : utilisez d'abord « Préparer le planning ».")
+        pdfs = base64.b64encode(merge_pdf(contenus))
 
 
 
