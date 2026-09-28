@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, tools
+from markupsafe import Markup
 from datetime import datetime, timedelta
 from odoo.exceptions import AccessError, ValidationError, UserError  # type: ignore
 import os
@@ -679,7 +680,7 @@ class IsCreationPlanning(models.Model):
 
             for row in res:
                 message.append(row[0])
-        return '<br />'.join(message)
+        return Markup('<br />'.join(message))
 
 
     def get_orders(self,date_debut,date_fin):
@@ -762,7 +763,7 @@ class IsCreationPlanning(models.Model):
                 html+=(row[2] or '')+'<br />'
                 html+=(row[3] or '')+' - '+(row[4] or '')+'<br />'
                 html+=(row[5] or '')
-                chantiers.append(html)
+                chantiers.append(Markup(html))
             if retour=='order':
                 chantiers.append(row[0])
             if retour=='planning':
