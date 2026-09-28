@@ -21,6 +21,7 @@ Reprise d'is_france_filets15 (Odoo 15).
         'l10n_fr',
         'attachment_indexation',
         'hr',
+        'spreadsheet_dashboard',        # uniquement pour masquer son menu « Tableaux de bord »
 
         # API Rest Akyos : base_rest n'existe pas en 20.0, en attente de la décision du client
         # "base_rest",                    # Pour API Rest Akyos

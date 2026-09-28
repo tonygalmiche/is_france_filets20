@@ -310,6 +310,7 @@
     <!-- Masquer les menus de base inutilisés -->
     <menuitem id="utm.menu_link_tracker_root"   parent="base.menu_custom"/>
     <menuitem id="mail.menu_root_discuss"       parent="base.menu_custom"/>
+    <menuitem id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" parent="base.menu_custom"/>
     <!-- API Rest Akyos : base_rest n'existe pas en 20.0, en attente de la décision du client -->
     <!-- <menuitem id="base_rest.menu_rest_api_root" parent="base.menu_custom"/> -->
 
