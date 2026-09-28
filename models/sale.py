@@ -300,6 +300,7 @@ class IsSaleOrderZone(models.Model):
 
 
 class SaleOrder(models.Model):
+    _name = "sale.order"
     _inherit = ["sale.order", "is.piece.jointe.mixin"]
     _is_piece_jointe_fields = ['is_piece_jointe_ids']
 
