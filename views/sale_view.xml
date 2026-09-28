@@ -64,8 +64,8 @@
                     <field name="is_distance_chantier"/>
                     <field name="is_num_ancien_devis"/>
                     <field name="is_ref_client"/>
-                    <field name="is_motif_archivage_id" states="draft,sent"/>
-                    <field name="is_motif_archivage"    states="draft,sent"/>
+                    <field name="is_motif_archivage_id" invisible="state not in ('draft', 'sent')"/>
+                    <field name="is_motif_archivage"    invisible="state not in ('draft', 'sent')"/>
                     <field name="is_etat_planning"/>
                 </field>
                 <xpath expr="//notebook" position="before">
@@ -81,8 +81,8 @@
                         <group string="Planning">
                             <field name="is_planning_ids" nolabel="1">
                                  <list editable="bottom">
-                                    <field name="date_debut" on_change="onchange_dates(date_debut,date_fin)"/>
-                                    <field name="date_fin"   on_change="onchange_dates(date_debut,date_fin)"/>
+                                    <field name="date_debut"/>
+                                    <field name="date_fin"  />
                                     <field name="commentaire"/>
                                     <field name="equipe_ids" widget="many2many_tags"/>
                                     <field name="equipier_ids" widget="many2many_tags"/>
@@ -96,23 +96,23 @@
                                 </list>
                             </field>
                         </group>
-                        <group string="Filets" attrs="{'invisible': [('is_filet_ids', '=', [])]}">
+                        <group string="Filets" invisible="not is_filet_ids">
                             <field name="is_filet_ids" nolabel="1" readonly="1">
                                  <list>
-                                    <button title="Voir la fiche du filet" name="voir_filet_action" type="object" icon="fa-search-plus"/>
+                                    <button title="Voir la fiche du filet" name="voir_filet_action" type="object" icon="zoom_in"/>
                                     <field name="name"/>
                                     <field name="type_filet"/>
                                     <field name="dimensions"/>
                                     <field name="fabriquant"/>
                                     <field name="etat_filet"/>
                                     <field name="position"/>
-                                    <field name="chantier_id" widget="many2one_clickable"/>
+                                    <field name="chantier_id" widget="many2one"/>
                                     <field name="zone_id"/>
                                     <field name="depuis_le"/>
                                 </list>
                             </field>
                         </group>
-                        <group attrs="{'invisible': [('is_filet_ids', '=', [])]}">
+                        <group invisible="not is_filet_ids">
                             <field name="is_chantier_id"/>
                         </group>
                     </page>
@@ -407,7 +407,6 @@
         <record model="ir.ui.view" id="is_type_prestation_tree_view">
             <field name="name">is_type_prestation_tree_view</field>
             <field name="model">is.type.prestation</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -450,7 +449,6 @@
         <record model="ir.ui.view" id="is_motif_archivage_tree_view">
             <field name="name">is_motif_archivage_tree_view</field>
             <field name="model">is.motif.archivage</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -490,7 +488,6 @@
         <record model="ir.ui.view" id="is_nacelle_tree_view">
             <field name="name">is_nacelle_tree_view</field>
             <field name="model">is.nacelle</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -532,7 +529,6 @@
         <record model="ir.ui.view" id="is_controle_gestion_tree_view">
             <field name="name">is_controle_gestion_tree_view</field>
             <field name="model">is.controle.gestion</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="ordre"/>
@@ -595,7 +591,6 @@
         <record model="ir.ui.view" id="is_equipe_tree_view">
             <field name="name">is_equipe_tree_view</field>
             <field name="model">is.equipe</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -642,7 +637,6 @@
         <record model="ir.ui.view" id="is_departement_tree_view">
             <field name="name">is_departement_tree_view</field>
             <field name="model">is.departement</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="name" />
@@ -708,7 +702,6 @@
         <record model="ir.ui.view" id="is_creation_planning_tree_view">
             <field name="name">is_creation_planning_tree_view</field>
             <field name="model">is.creation.planning</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list>
                     <field name="date_debut"/>
@@ -759,7 +752,6 @@
         <record model="ir.ui.view" id="is_creation_planning_preparation_tree_view">
             <field name="name">is_creation_planning_preparation_tree_view</field>
             <field name="model">is.creation.planning.preparation</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list create="0">
                     <field name="date"/>
@@ -812,18 +804,13 @@
                         </group>
                     </sheet>
 
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
+                    <chatter/>
                </form>
             </field>
         </record>
         <record model="ir.ui.view" id="is_planning_pdf_tree_view">
             <field name="name">is_planning_pdf_tree_view</field>
             <field name="model">is.planning.pdf</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list create="0">
                     <field name="name"/>
@@ -856,7 +843,7 @@
             <field name="binding_model_id" ref="model_is_planning"/>
             <field name="state">code</field>
             <field name="code">action = records.generer_planning_pdf_action()</field>
-            <field name="groups_id" eval="[(6,0,[
+            <field name="group_ids" eval="[(6,0,[
                     ref('is_france_filets20.is_generer_planning_pdf_group'),
                 ])]"
             />
@@ -881,18 +868,13 @@
                             </field>
                         </group>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
+                    <chatter/>
                </form>
             </field>
         </record>
         <record model="ir.ui.view" id="is_planning_tree_view">
             <field name="name">is_planning_tree_view</field>
             <field name="model">is.planning</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list create="0">
                     <field name="name"/>
@@ -926,7 +908,7 @@
             <field name="binding_model_id" ref="model_is_chantier"/>
             <field name="state">code</field>
             <field name="code">action = records._compute_equipe_ids()</field>
-            <field name="groups_id" eval="[(6,0,[
+            <field name="group_ids" eval="[(6,0,[
                     ref('sales_team.group_sale_manager'),
                 ])]"
             />
@@ -937,7 +919,7 @@
             <field name="arch" type="xml">
                 <form create="0">
                     <header>
-                        <button name="voir_equipiers_action" type="object" string="Equipiers" icon="fa-users"/>
+                        <button name="voir_equipiers_action" type="object" string="Equipiers" icon="group"/>
                     </header>
                     <sheet>
                         <style>
@@ -953,7 +935,7 @@
                                 <field name="user_ids"         widget="many2many_tags"/>
                                 <field name="chef_secteur_ids" widget="many2many_tags" groups="sales_team.group_sale_manager"/>
                                 <field name="order_id" groups="sales_team.group_sale_manager"/>
-                                <field name="zone_ids" widget="many2many_tags" attrs="{'invisible': [('zone_ids','=',[])]}"/>
+                                <field name="zone_ids" widget="many2many_tags" invisible="not zone_ids"/>
                                <field name="client"/>
                             </group>
                             <group>
@@ -974,16 +956,16 @@
                                     <field name="equipier_ids" widget="many2many_tags"/>
                                     <field name="pose_depose"/>
                                     <field name="etat"/>
-                                    <button title="Actualiser la liste des filets pour ce chantier" name="actualiser_filets_action" type="object" icon="fa-refresh"/>
+                                    <button title="Actualiser la liste des filets pour ce chantier" name="actualiser_filets_action" type="object" icon="refresh"/>
                                     <field name="realisation"/>
-                                    <button title="Saisie du PV" name="saisie_pv_action" type="object" icon="fa-search-plus"/>
+                                    <button title="Saisie du PV" name="saisie_pv_action" type="object" icon="zoom_in"/>
                                 </list>
                             </field>
                         </group>
-                        <group string="Filets" attrs="{'invisible': [('filet_ids', '=', [])]}">
+                        <group string="Filets" invisible="not filet_ids">
                             <field name="filet_ids" nolabel="1" readonly="1">
                                  <list>
-                                    <button title="Voir la fiche du filet" name="voir_filet_action" type="object" icon="fa-search-plus"/>
+                                    <button title="Voir la fiche du filet" name="voir_filet_action" type="object" icon="zoom_in"/>
                                     <field name="name"/>
                                     <field name="type_filet"/>
                                     <field name="dimensions"/>
@@ -995,7 +977,7 @@
                                 </list>
                             </field>
                         </group>
-                        <group string="Pièces jointes commande" attrs="{'invisible': [('piece_jointe_commande_ids', '=', [])]}">
+                        <group string="Pièces jointes commande" invisible="not piece_jointe_commande_ids">
                             <field name="piece_jointe_commande_ids" nolabel="1" widget="many2many_binary"/>
                         </group>
                         <group string="Pièces jointes chantier">
@@ -1003,7 +985,7 @@
                             <field 
                                 name="piece_jointe_chantier_ids" nolabel="1" 
                                 widget="many2many_binary" 
-                                attrs="{'readonly': [('piece_jointe_chantier_ids_readonly', '=', True)]}"
+                                readonly="piece_jointe_chantier_ids_readonly"
                             />
                         </group>
                         <group string="Documents de suivi de chantier">
@@ -1019,7 +1001,7 @@
                                 </list>
                             </field>
                         </group>
-                        <group string="Autres documents de suivi de chantier" attrs="{'invisible': [('fin_chantier_ids', '=', [])]}">
+                        <group string="Autres documents de suivi de chantier" invisible="not fin_chantier_ids">
                             <field name="fin_chantier_ids" nolabel="1" widget="many2many_binary" readonly="1"/>
                         </group>
                         <group string="Informations diverses">
@@ -1032,7 +1014,6 @@
         <record model="ir.ui.view" id="is_chantier_tree_view">
             <field name="name">is_chantier_tree_view</field>
             <field name="model">is.chantier</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list create="0">
                     <field name="name"/>
@@ -1102,10 +1083,9 @@
         <record model="ir.ui.view" id="is_chantier_document_tree_view">
             <field name="name">is_chantier_document_tree_view</field>
             <field name="model">is.chantier.document</field>
-            <field name="type">tree</field>
             <field name="arch" type="xml">
                 <list delete="0" create="0">
-                    <field name="chantier_id" widget="many2one_clickable"/>
+                    <field name="chantier_id" widget="many2one"/>
                     <field name="user_ids"         optional="show"  widget="many2many_tags"/>
                     <field name="commentaire"      optional="show"/>
                     <field name="piece_jointe_ids" optional="show" nolabel="1" widget="many2many_binary"/>
@@ -1259,11 +1239,7 @@
                             </group>
                         </group>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                        <field name="activity_ids" widget="mail_activity"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
+                    <chatter/>
                 </form>
             </field>
         </record>

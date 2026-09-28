@@ -35,7 +35,7 @@ Reprise d'is_france_filets15 (Odoo 15).
         # Migration v20 : vues, menus et rapports désactivés pour installer d'abord les modèles
         'views/res_company_view.xml',
         'views/partner_view.xml',
-        # 'views/sale_view.xml',
+        'views/sale_view.xml',
         # 'views/account_move_view.xml',
         # 'views/is_export_compta_view.xml',
         'views/is_sale_order_line.xml',
