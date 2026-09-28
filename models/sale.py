@@ -970,9 +970,6 @@ class IsCreationPlanning(models.Model):
             #** Création des chantiers *****************************************
             self.env['is.chantier.planning'].search([('sale_order_planning_id','=',False)]).unlink()
             for order in orders:
-
-                print(order.name)
-
                 chantiers = self.env['is.chantier'].search([('order_id','=',order.id)])
                 if not chantiers:
                     vals={

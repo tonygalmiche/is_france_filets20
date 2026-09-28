@@ -635,13 +635,15 @@ class IsSuiviBudget(models.Model):
         groupe_client_ids=[]
         for groupe in groupes:
             groupe_client_ids.append(str(groupe.groupe_client_id.id))
-        groupe_client_ids=",".join(groupe_client_ids)
-        SQL="select id from res_partner where is_groupe_client_id in ("+groupe_client_ids+")"
-        cr.execute(SQL)
-        res = cr.fetchall()
         ids3=[]
-        for row in res:
-            ids3.append(str(row[0]))
+        # Anomalie 5 : sans groupe client, la requête « in () » était en erreur
+        if groupe_client_ids:
+            groupe_client_ids=",".join(groupe_client_ids)
+            SQL="select id from res_partner where is_groupe_client_id in ("+groupe_client_ids+")"
+            cr.execute(SQL)
+            res = cr.fetchall()
+            for row in res:
+                ids3.append(str(row[0]))
         partner_ids = ids1 + ids2 + ids3
         val = self.get_ca_realise(m,partner_ids,not_in=True)
         return val
@@ -669,7 +671,6 @@ class IsSuiviBudget(models.Model):
             SELECT
                 sum(ai.amount_untaxed)
             FROM account_move ai inner join res_partner rp on ai.partner_id=rp.id
-                               left outer join is_groupe_client igc on rp.id=igc.id
                                left outer join is_region ir on rp.is_region_id=ir.id
             WHERE 
                 ai.invoice_date>='"""+str(periode['debut'])+"""' and
@@ -803,7 +804,6 @@ class IsSuiviBudget(models.Model):
             SELECT
                 sum(so.amount_untaxed)
             FROM sale_order so inner join res_partner rp on so.partner_id=rp.id
-                             left outer join is_groupe_client igc on rp.id=igc.id
                              left outer join is_region ir on rp.is_region_id=ir.id
             WHERE 
                 so.is_date_previsionnelle>='"""+str(debut)+"""' and
