@@ -9,6 +9,7 @@
                 <notebook position="inside">
                     <page string="Configuration France Filets">
                         <group string="Facturation">
+                            <field name="company_registry" placeholder="ex : RCS DIJON"/>
                             <field name="is_affacturage"/>
                             <field name="is_conditions_generales"/>
                         </group>

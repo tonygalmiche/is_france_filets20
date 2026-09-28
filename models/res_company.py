@@ -4,6 +4,7 @@ from odoo import api, fields, models
 class res_company(models.Model):
     _inherit = 'res.company'
 
+    company_registry        = fields.Char('Registre du commerce')  # Supprimé d'Odoo en v20, remis pour le pied de page des documents
     is_affacturage          = fields.Text('Affacturage')
     is_conditions_generales = fields.Text('Conditions générales')
     is_sms_account  = fields.Char('SMS account')
