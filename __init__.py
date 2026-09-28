@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from . import controllers
 from . import models
-from . import services
-from . import datamodels
+
+# API Rest Akyos : base_rest n'existe pas en 20.0, en attente de la décision du client
+# from . import controllers
+# from . import services
+# from . import datamodels
