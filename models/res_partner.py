@@ -41,6 +41,17 @@ class IsGroupeClient(models.Model):
     name      = fields.Char(u"Groupe client", required=True)
 
 
+class ResPartnerTitle(models.Model):
+    # Civilité : supprimée d'Odoo en v20, recréée à l'identique de la v15 (même modèle, même table)
+    # pour le devis (« à l'attention de »), l'application mobile et la reprise des données
+    _name='res.partner.title'
+    _description = "Civilité"
+    _order='name'
+
+    name     = fields.Char('Civilité', required=True)
+    shortcut = fields.Char('Abréviation')
+
+
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
@@ -67,6 +78,7 @@ class ResPartner(models.Model):
     is_secteur_activite_id = fields.Many2one('is.secteur.activite', u"Secteur d'activité")
     is_origine_id          = fields.Many2one('is.origine'         , u'Origine Client')
     is_groupe_client_id    = fields.Many2one('is.groupe.client'   , u'Groupe client')
+    title                  = fields.Many2one('res.partner.title'  , 'Civilité')  # Supprimé d'Odoo en v20, remis pour le devis
 
     # En v20, is_company est calculé (sans parent et avec un n° de TVA) : la plupart des sociétés
     # de France Filets n'ont pas de TVA. Comme en v15, c'est une case à cocher, la valeur saisie est conservée

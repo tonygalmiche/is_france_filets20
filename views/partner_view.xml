@@ -79,6 +79,16 @@
                     <field name="is_secteur_activite_id" invisible="not is_company"/>
                 </xpath>
 
+                <xpath expr="//field[@name='function']" position="before">
+                    <field name="title" invisible="is_company" options="{'no_open': True}"/>
+                </xpath>
+                <xpath expr="//field[@name='child_ids']/form//h3" position="before">
+                    <label for="title" class="d-md-none" invisible="type != 'contact'"/>
+                    <div class="w-md-50" invisible="type != 'contact'">
+                        <field name="title" placeholder="Civilité" options="{'no_open': True}"/>
+                    </div>
+                </xpath>
+
                 <xpath expr="//field[@name='lang']" position="before">
                     <field name="is_date_creation" invisible="not is_company"/>
                     <field name="is_origine_id" invisible="not is_company"/>
@@ -98,6 +108,24 @@
                     <field name="is_validation_financiere" invisible="not is_company" groups="account.group_account_invoice"/>
                 </field>
             </field>
+        </record>
+
+
+        <!-- Civilités -->
+        <record id="is_res_partner_title_tree_view" model="ir.ui.view">
+            <field name="name">is_res_partner_title_tree_view</field>
+            <field name="model">res.partner.title</field>
+            <field name="arch" type="xml">
+                <list editable="bottom">
+                    <field name="name" />
+                    <field name="shortcut" />
+                </list>
+            </field>
+        </record>
+        <record id="is_res_partner_title_action" model="ir.actions.act_window">
+            <field name="name">Civilités</field>
+            <field name="res_model">res.partner.title</field>
+            <field name="view_mode">list</field>
         </record>
 
 
